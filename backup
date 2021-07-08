@@ -1,9 +1,41 @@
 import React from 'react'
 import './App.css'
+import { rgb2hex } from './utils'
 
-import ColorLabel from './components/ColorLabel'
-import UploadButton from './components/UploadButton'
 const CONTROL_CODE = ['ControlLeft', 'ControlRight']
+/**
+ *
+ * @param {object} param0
+ * @returns
+ */
+const PointLabel = ({ x, y }) => {
+  return <div className="">图片坐标: {`(${x}, ${y})`}</div>
+}
+
+/**
+ *
+ * @param {object} param0
+ * @returns
+ */
+const ColorLabel = ({ r, g, b }) => {
+  const c = rgb2hex(r, g, b)
+  const size = '20px'
+  return (
+    <div className="flex content-center ">
+      hex:
+      <span>{c}</span>
+      <div
+        style={{
+          width: size,
+          height: size,
+          marginLeft: '5px',
+          backgroundColor: c,
+          display: 'inline-block',
+        }}
+      ></div>
+    </div>
+  )
+}
 
 class Canvas extends React.Component {
   constructor(props) {
@@ -34,7 +66,7 @@ class Canvas extends React.Component {
     if (!this.props.objURL) {
       return
     }
-    if (!!this.preObjURL && this.preObjURL === this.props.objURL) {
+    if (!!this.preObjURL && this.preObjURL === this.preObjURL) {
       return
     }
     this.preObjURL = this.props.objURL
@@ -116,9 +148,9 @@ class App extends React.Component {
     this.setState({ objURL: URL.createObjectURL(files[0]) })
   }
 
-  // componentDidMount() {
-  //   this.showImage()
-  // }
+  componentDidMount() {
+    this.showImage()
+  }
 
   render() {
     return (
@@ -130,11 +162,12 @@ class App extends React.Component {
             this.setState({ x, y, r, g, b })
           }
         />
-        <div>图片坐标: {`(${this.state.x}, ${this.state.y})`}</div>
+        <PointLabel x={this.state.x} y={this.state.y} />
         <ColorLabel r={this.state.r} g={this.state.g} b={this.state.b} />
-        <UploadButton handleChange={(evt) => this.showImage(evt)} />
-
+        <input type="file" onChange={(evt) => this.showImage(evt)} />
+        <p></p>
         <div>按住 ctrl 暂停更新坐标 图片太大的话使用 chrome 自带的缩放</div>
+        <div>bar</div>
       </div>
     )
   }
