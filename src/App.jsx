@@ -107,7 +107,7 @@ class App extends React.Component {
     if (!evt) {
       return
     }
-
+    
     const files = evt.target.files
     if (!files.length) {
       return
